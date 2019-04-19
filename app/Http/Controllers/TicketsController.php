@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Tickets;
 use App\Markets;
+use App\Tickets;
 use App\TicketsContent;
 use Auth;
+use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
@@ -36,7 +36,10 @@ class TicketsController extends Controller
     {
         $market = Markets::updateOrCreate(['name' => $request->input('market')]);
 
-        $request->merge(['user' => Auth::id()]);
+        $request->merge([
+            'user' => Auth::id(),
+            'market' => $market->id,
+        ]);
         $ticket = Tickets::create($request->all());
 
         return redirect()->route('tickets.view', ['id' => $ticket->id]);

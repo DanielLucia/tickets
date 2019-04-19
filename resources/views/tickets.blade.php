@@ -3,25 +3,27 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Tickets</div>
                 <form method="post" action="{{ route('tickets.save') }}">
                 @csrf
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="price">Fecha</label>
-                        <input type="date" class="form-control" name="date" value="{{ date('Y-m-d') }}"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="price">Tienda</label>
-                        <input type="text" class="form-control" name="market" list="markets" autocomplete="off" />
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-12">
+                            <input placeholder="Fecha" type="date" class="form-control" name="date" value="{{ date('Y-m-d') }}" required/>
+                        </div>
+                        <div class="form-group col-md-8 col-sm-12">
+                            <input type="text" placeholder="TIenda" class="form-control" name="market" list="markets" autocomplete="off" required />
+                            @if (!empty($markets))
+                                <datalist id="markets">
+                                @foreach ($markets as $market)
+                                <option>{{ $market->name }}</option>
+                                @endforeach
+                                </datalist>
+                            @endif
 
-                        <datalist id="markets">
-                        @foreach ($markets as $market)
-                        <option>{{ $market->name }}</option>
-                        @endforeach
-                        </datalist>
+                        </div>
                     </div>
                     <p><button type="submit" class="btn btn-primary btn-block">Crear nuevo ticket</button></p>
 

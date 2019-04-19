@@ -3,34 +3,36 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header"><strong>{{ $ticket->date }}</strong> {{ $ticket->name }} ({{ number_format($ticket->total, 2) }}€)</div>
                 <form method="post" action="{{ route('tickets.save.product') }}">
                 @csrf
                 <div class="card-body">
                     <input type="hidden" value="{{ $ticket->id }}" name="ticket" />
-                    <div class="form-group">
-                        <label for="price">Cantidad</label>
-                        <input type="text" class="form-control" name="quantity" value="1" required />
-                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-1 col-sm-12">
+                            <input type="text" placeholder="Cantidad" class="form-control" name="quantity" value="1" required />
+                        </div>
 
-                    <div class="form-group">
-                        <label for="price">Producto</label>
-                        <input type="text" class="form-control" name="product" list="products" autocomplete="off" autofocus required/>
-                        <datalist id="products">
-                        @foreach ($products as $product)
-                        <option>{{ $product->product }}</option>
-                        @endforeach
-                        </datalist>
-                    </div>
+                        <div class="form-group col-md-9 col-sm-12">
+                            <input type="text" placeholder="Producto" class="form-control" name="product" list="products" autocomplete="off" autofocus required/>
 
-                    <div class="form-group">
-                        <label for="price">Precio</label>
-                        <input type="text" class="form-control" name="price" required/>
-                    </div>
+                            @if (!empty($products))
+                                <datalist id="products">
+                                @foreach ($products as $product)
+                                <option>{{ $product->product }}</option>
+                                @endforeach
+                                </datalist>
+                            @endif
 
-                    <div class="form-group">
+                        </div>
+
+                        <div class="form-group col-md-2 col-sm-12">
+                            <input type="text" placeholder="Precio" class="form-control" name="price" required/>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;">
                         <label for="price">Fecha de caducidad</label>
                         <input type="date" class="form-control" name="expiry" value="{{ date('Y-m-d') }}"/>
                     </div>

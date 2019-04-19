@@ -27,13 +27,14 @@
                     </div>
                     <p><button type="submit" class="btn btn-primary btn-block">Crear nuevo ticket</button></p>
 
-                    @if (!empty($tickets))
+                    @if (!empty($tickets) && count($tickets) > 0)
 
                     <div class="card-header">Tickets</div>
 
                     <table class="table">
                     <thead>
                         <tr>
+                        <th scope="col" width="50"></th>
                         <th scope="col" width="130">Fecha</th>
                         <th scope="col">Tienda</th>
                         <th scope="col" width="70">Total</th>
@@ -42,6 +43,7 @@
                     <tbody>
                     @foreach ($tickets as $ticket)
                         <tr>
+                        <th scope="row"><a href="{{ route('tickets.remove', ['id' => $ticket->id]) }}">Borrar</a></th>
                         <th scope="row"><a href="{{ route('tickets.view', ['id' => $ticket->id]) }}">{{ $ticket->date }}</a></th>
                         <td>{{ $ticket->name }}</td>
                         <td>{{ number_format($ticket->total, 2) }}€ </td>

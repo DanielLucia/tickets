@@ -20,6 +20,7 @@ Route::redirect('/', '/ticket', 301);
 
 Route::get('/ticket', 'TicketsController@index')->name('tickets');
 Route::get('/ticket/{id}', 'TicketsController@view')->name('tickets.view');
+Route::get('/ticket/remove/{id}', 'TicketsController@remove')->name('tickets.remove');
 
 Route::post('/ticket', 'TicketsController@save')->name('tickets.save');
 Route::post('/ticket/save-product', 'TicketsController@saveProduct')->name('tickets.save.product');

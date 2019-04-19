@@ -15,6 +15,11 @@ class TicketsController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function index()
     {
         $markets = Markets::all();
@@ -23,6 +28,9 @@ class TicketsController extends Controller
         return view('tickets', compact('markets', 'tickets'));
     }
 
+    /**
+     *
+     */
     public function view($id)
     {
         $ticket = Tickets::leftJoin('markets', 'markets.id', '=', 'tickets.market')->where(['tickets.id' => intval($id)])->first();
@@ -32,6 +40,12 @@ class TicketsController extends Controller
         return view('tickets.new', compact('ticket', 'products', 'contentTicket'));
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
     public function save(Request $request)
     {
         $market = Markets::updateOrCreate(['name' => $request->input('market')]);
@@ -45,6 +59,28 @@ class TicketsController extends Controller
         return redirect()->route('tickets.view', ['id' => $ticket->id]);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function remove($id)
+    {
+        $ticket = Tickets::find($id);
+        if ($ticket) {
+            $ticket->delete();
+        }
+
+        return redirect()->route('home');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
     public function saveProduct(Request $request)
     {
         $product = TicketsContent::where(['product' => $request->input('product')])->first();
@@ -56,10 +92,17 @@ class TicketsController extends Controller
             $product->save();
         }
 
-        $ticket = Tickets::find(intval($request->input('ticket')));
-        $ticket->total += (floatval($request->input('price')) * intval($request->input('quantity')));
-        $ticket->save();
-
         return redirect()->route('tickets.view', ['id' => $request->input('ticket')]);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function removeProduct($id)
+    {
+
     }
 }

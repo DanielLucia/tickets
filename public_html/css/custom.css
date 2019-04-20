@@ -1,0 +1,9 @@
+.nav-tabs {
+    margin-bottom: 20px;
+    text-align: center!important;
+    display: block!important;
+}
+
+.nav-tabs > li {
+    display: inline-block!important;
+}

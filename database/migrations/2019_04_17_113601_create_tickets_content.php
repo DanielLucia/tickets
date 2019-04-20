@@ -14,7 +14,7 @@ class CreateTicketsContent extends Migration
     public function up()
     {
         Schema::create('tickets_content', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('idContent');
             $table->integer('ticket');
             $table->string('product', 100)->default('');
             $table->integer('quantity')->default(0);

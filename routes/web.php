@@ -24,6 +24,3 @@ Route::get('/ticket/remove/{id}', 'TicketsController@remove')->name('tickets.rem
 
 Route::post('/ticket', 'TicketsController@save')->name('tickets.save');
 Route::post('/ticket/save-product', 'TicketsController@saveProduct')->name('tickets.save.product');
-
-Auth::routes();
-

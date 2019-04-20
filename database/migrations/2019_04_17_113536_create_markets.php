@@ -14,7 +14,7 @@ class CreateMarkets extends Migration
     public function up()
     {
         Schema::create('markets', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('idMarket');
             $table->string('name', 100);
             $table->integer('user')->default(0);
             $table->timestamps();

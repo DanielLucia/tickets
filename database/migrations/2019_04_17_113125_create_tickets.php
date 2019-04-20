@@ -14,11 +14,10 @@ class CreateTickets extends Migration
     public function up()
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('idTicket');
             $table->date('date');
             $table->integer('market');
             $table->integer('user')->default(0);
-            $table->float('total', 8, 2)->default(0);
             $table->timestamps();
         });
     }

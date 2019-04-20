@@ -23,7 +23,7 @@ class TicketsController extends Controller
     public function index()
     {
         $markets = Markets::all();
-        $tickets = Tickets::leftJoin('markets', 'markets.id', '=', 'tickets.market')->get();
+        $tickets = Tickets::leftJoin('markets', 'markets.idMarket', '=', 'tickets.market')->get();
 
         return view('tickets', compact('markets', 'tickets'));
     }
@@ -33,7 +33,7 @@ class TicketsController extends Controller
      */
     public function view($id)
     {
-        $ticket = Tickets::leftJoin('markets', 'markets.id', '=', 'tickets.market')->where(['tickets.id' => intval($id)])->first();
+        $ticket = Tickets::leftJoin('markets', 'markets.idMarket', '=', 'tickets.market')->where(['tickets.idTicket' => intval($id)])->first();
         $products = TicketsContent::all();
         $contentTicket = TicketsContent::where(['ticket' => $id])->get();
 
@@ -52,11 +52,11 @@ class TicketsController extends Controller
 
         $request->merge([
             'user' => Auth::id(),
-            'market' => $market->id,
+            'market' => $market->idMarket,
         ]);
         $ticket = Tickets::create($request->all());
 
-        return redirect()->route('tickets.view', ['id' => $ticket->id]);
+        return redirect()->route('tickets.view', ['id' => $ticket->idTicket]);
     }
 
     /**
@@ -67,9 +67,17 @@ class TicketsController extends Controller
      */
     public function remove($id)
     {
+        if (intval($id) == 0) {
+            flash('El ticket no ha sido borrado')->error();
+            return redirect()->route('home');
+        }
+
         $ticket = Tickets::find($id);
         if ($ticket) {
             $ticket->delete();
+
+            $contents = TicketsContent::where(['ticket' => $id])->delete();
+            flash('Ticket borrado')->success();
         }
 
         return redirect()->route('home');
